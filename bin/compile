@@ -164,49 +164,33 @@ cd ../
 npm install
 grunt release
 
-# Now remove a bunch of source files that increase the slug size, 
-# so that it will deploy. More ugliness, sorry.
-cd app/
-rm -rf node_modules
-rm -rf bower_components
-cd ../shared
-rm -rf node_modules
-rm -rf bower_components
-cd ../neurod
-rm -rf node_modules
-rm -rf bower_components
-cd ../consent
-rm -rf node_modules
-rm -rf bower_components
-cd ../../
-rm -rf test
-rm -rf target/universal/stage/share/doc
-rm -f phantomjsdriver.log
-rm -rf .sbt_home
-
 # repack cache
 mkdir -p $CACHE_DIR
 for DIR in $CACHED_DIRS; do
   cache_copy $DIR $BUILD_DIR $CACHE_DIR
 done
 
-# drop useless directories from slug for play only
-if is_play $BUILD_DIR ; then
-  if [ -d $SBT_USER_HOME/.ivy2 ]; then
-    echo "-----> Dropping ivy cache from the slug"
-    rm -rf $SBT_USER_HOME/.ivy2
-  fi
-  if [ -d $BUILD_DIR/project/boot ] ; then
-    echo "-----> Dropping project boot dir from the slug"
-    rm -rf $BUILD_DIR/project/boot
-  fi
-  if [ -d $BUILD_DIR/target ] ; then
-    echo "-----> Dropping compilation artifacts from the slug"
-    rm -rf $BUILD_DIR/target/scala-*
-    rm -rf $BUILD_DIR/target/streams
-    rm -rf $BUILD_DIR/target/resolution-cache
-  fi
-fi
+# drop useless directories from slug for play
+
+echo "-----> Dropping tests"
+rm -rf test
+
+echo "-----> Dropping docs"
+rm -rf target/universal/stage/share/doc
+
+echo "-----> Dropping phantomdriver log"
+rm -f phantomjsdriver.log
+
+echo "-----> Dropping ivy cache from the slug"
+rm -rf $SBT_USER_HOME/.ivy2
+
+echo "-----> Dropping project boot dir from the slug"
+rm -rf $BUILD_DIR/project/boot
+
+echo "-----> Dropping compilation artifacts from the slug"
+rm -rf $BUILD_DIR/target/scala-*
+rm -rf $BUILD_DIR/target/streams
+rm -rf $BUILD_DIR/target/resolution-cache
 
 # Move compiled app back to where Heroku expects it
 mv $BUILD_DIR $APP_BUILD_DIR
