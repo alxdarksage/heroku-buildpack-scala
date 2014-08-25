@@ -148,8 +148,16 @@ PATH=$BUILD_DIR/vendor/node/bin:$PATH
 npm install -g bower
 npm install -g grunt-cli
 gem install sass
-cd $BUILD_DIR/public
-update-js.sh
+cd $BUILD_DIR/public/app/
+npm install
+cd $BUILD_DIR/public/shared
+npm install
+cd $BUILD_DIR/public/neurod
+npm install
+cd $BUILD_DIR/public/consent
+npm install
+cd $BUILD_DIR/public/
+npm install
 grunt release
 
 # repack cache
