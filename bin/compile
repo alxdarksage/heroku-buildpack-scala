@@ -4,6 +4,8 @@
 # fail fast
 set -e
 
+node_version=0.10.26
+
 BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
 BIN_DIR=$BP_DIR/bin
 OPT_DIR=$BP_DIR/opt
@@ -129,14 +131,14 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
 
 # Download node from Heroku's S3 mirror of nodejs.org/dist
 status "Downloading and installing node"
-node_url="http://s3pository.heroku.com/node/v0.10.26/node-v0.10.26-linux-x64.tar.gz"
-curl $node_url -s -o - | tar xzf - -C $build_dir
+node_url="http://s3pository.heroku.com/node/v$node_version/node-v$node_version-linux-x64.tar.gz"
+curl $node_url -s -o - | tar xzf - -C $BUILD_DIR
 
 # Move node (and npm) into ./vendor and make them executable
-mkdir -p $build_dir/vendor
-mv $build_dir/node-v$node_version-linux-x64 $build_dir/vendor/node
-chmod +x $build_dir/vendor/node/bin/*
-PATH=$build_dir/vendor/node/bin:$PATH
+mkdir -p $BUILD_DIR/vendor
+mv $BUILD_DIR/node-v$node_version-linux-x64 $BUILD_DIR/vendor/node
+chmod +x $BUILD_DIR/vendor/node/bin/*
+PATH=$BUILD_DIR/vendor/node/bin:$PATH
 
 # Run subsequent node/npm commands from the build path
 npm install -g bower
