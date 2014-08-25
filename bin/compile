@@ -127,9 +127,6 @@ PROFILE_PATH="$BUILD_DIR/.profile.d/scala.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
 
-# Adding some node-based work here
-trap cat_npm_debug_log ERR
-
 # Download node from Heroku's S3 mirror of nodejs.org/dist
 status "Downloading and installing node"
 node_url="http://s3pository.heroku.com/node/v0.10.26/node-v0.10.26-linux-x64.tar.gz"
