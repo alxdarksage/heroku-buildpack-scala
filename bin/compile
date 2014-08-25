@@ -181,7 +181,7 @@ rm -rf bower_components
 cd ../../
 rm -rf test
 rm -rf target/universal/stage/share/doc
-rm phantomjsdriver.log
+rm -f phantomjsdriver.log
 rm -rf .sbt_home
 
 # repack cache
