@@ -151,18 +151,23 @@ gem install sass
 cd app/
 npm install
 bower install
+bower cache clean
 cd ../shared
 npm install
 bower install
+bower cache clean
 cd ../neurod
 npm install
 bower install
+bower cache clean
 cd ../consent
 npm install
 bower install
+bower cache clean
 cd ../
 npm install
 bower install
+bower cache clean
 grunt release
 
 # repack cache
