@@ -164,6 +164,26 @@ cd ../
 npm install
 grunt release
 
+# Now remove a bunch of source files that increase the slug size, 
+# so that it will deploy. More ugliness, sorry.
+cd app/
+rm -rf node_modules
+rm -rf bower_components
+cd ../shared
+rm -rf node_modules
+rm -rf bower_components
+cd ../neurod
+rm -rf node_modules
+rm -rf bower_components
+cd ../consent
+rm -rf node_modules
+rm -rf bower_components
+cd ../../
+rm -rf test
+rm -rf target/universal/stage/share/doc
+rm phantomjsdriver.log
+rm -rf .sbt_home
+
 # repack cache
 mkdir -p $CACHE_DIR
 for DIR in $CACHED_DIRS; do
