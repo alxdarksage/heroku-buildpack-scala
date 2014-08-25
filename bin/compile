@@ -148,7 +148,7 @@ PATH=$BUILD_DIR/vendor/node/bin:$PATH
 npm install -g bower
 npm install -g grunt-cli
 gem install sass
-cd app/
+cd public/app/
 npm install
 bower install
 bower cache clean
