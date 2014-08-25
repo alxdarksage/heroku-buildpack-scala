@@ -150,14 +150,19 @@ npm install -g grunt-cli
 gem install sass
 cd $BUILD_DIR/public/app/
 npm install
+bower install --verbose
 cd $BUILD_DIR/public/shared
 npm install
+bower install --verbose
 cd $BUILD_DIR/public/neurod
 npm install
+bower install --verbose
 cd $BUILD_DIR/public/consent
 npm install
+bower install --verbose
 cd $BUILD_DIR/public/
 npm install
+bower install --verbose
 grunt release
 
 # repack cache
