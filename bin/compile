@@ -73,21 +73,9 @@ PATH=$BUILD_DIR/vendor/node/bin:$PATH
 npm install -g bower
 npm install -g grunt-cli
 gem install sass
-cd public/app/
-npm install
-bower install --verbose
-cd ../shared
-npm install
-bower install --verbose
-cd ../neurod
-npm install
-bower install --verbose
-cd ../consent
-npm install
-bower install --verbose
-cd ../
-npm install
-grunt release
+
+cd public
+source update-js.sh
 cd ../
 
 # unpack cache
@@ -172,7 +160,24 @@ for DIR in $CACHED_DIRS; do
 done
 
 # drop useless directories from slug for play
-echo "-----> Dropping vendor directory"
+echo "-----> Dropping node_modules and bower_components"
+cd public
+rm -rf node_modules
+cd app
+rm -rf node_modules
+rm -rf bower_components
+cd ../consent
+rm -rf node_modules
+rm -rf bower_components
+cd ../shared
+rm -rf node_modules
+rm -rf bower_components
+cd ../neurod
+rm -rf node_modules
+rm -rf bower_components
+cd ../../
+
+echo "-----> Dropping vendor"
 rm -rf vendor
 
 echo "-----> Dropping tests"
