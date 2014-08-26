@@ -163,6 +163,7 @@ bower install --verbose
 cd ../
 npm install
 grunt release
+cd ../
 
 # repack cache
 mkdir -p $CACHE_DIR
