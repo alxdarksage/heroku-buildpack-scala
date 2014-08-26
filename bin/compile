@@ -171,6 +171,8 @@ for DIR in $CACHED_DIRS; do
 done
 
 # drop useless directories from slug for play
+echo "-----> Dropping vendor directory"
+rm -rf vendor
 
 echo "-----> Dropping tests"
 rm -rf test
