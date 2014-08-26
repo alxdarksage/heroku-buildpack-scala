@@ -56,6 +56,40 @@ SBT_BINDIR="$SBT_USER_HOME"/bin
 # chdir as sbt expects
 cd $BUILD_DIR
 
+install_gems $CACHE_DIR $GEMS
+
+# Download node from Heroku's S3 mirror of nodejs.org/dist
+status "Downloading and installing node"
+node_url="http://s3pository.heroku.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz"
+curl $node_url -s -o - | tar xzf - -C $BUILD_DIR
+
+# Move node (and npm) into ./vendor and make them executable
+mkdir -p $BUILD_DIR/vendor
+mv $BUILD_DIR/node-v$NODE_VERSION-linux-x64 $BUILD_DIR/vendor/node
+chmod +x $BUILD_DIR/vendor/node/bin/*
+PATH=$BUILD_DIR/vendor/node/bin:$PATH
+
+# Run subsequent node/npm commands from the build path
+npm install -g bower
+npm install -g grunt-cli
+gem install sass
+cd public/app/
+npm install
+bower install --verbose
+cd ../shared
+npm install
+bower install --verbose
+cd ../neurod
+npm install
+bower install --verbose
+cd ../consent
+npm install
+bower install --verbose
+cd ../
+npm install
+grunt release
+cd ../
+
 # unpack cache
 CACHED_DIRS="$SBT_USER_HOME/.ivy2 $SBT_BINDIR target project/target project/boot"
 for DIR in $CACHED_DIRS; do
@@ -130,40 +164,6 @@ fi
 PROFILE_PATH="$BUILD_DIR/.profile.d/scala.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
-
-install_gems $CACHE_DIR $GEMS
-
-# Download node from Heroku's S3 mirror of nodejs.org/dist
-status "Downloading and installing node"
-node_url="http://s3pository.heroku.com/node/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz"
-curl $node_url -s -o - | tar xzf - -C $BUILD_DIR
-
-# Move node (and npm) into ./vendor and make them executable
-mkdir -p $BUILD_DIR/vendor
-mv $BUILD_DIR/node-v$NODE_VERSION-linux-x64 $BUILD_DIR/vendor/node
-chmod +x $BUILD_DIR/vendor/node/bin/*
-PATH=$BUILD_DIR/vendor/node/bin:$PATH
-
-# Run subsequent node/npm commands from the build path
-npm install -g bower
-npm install -g grunt-cli
-gem install sass
-cd public/app/
-npm install
-bower install --verbose
-cd ../shared
-npm install
-bower install --verbose
-cd ../neurod
-npm install
-bower install --verbose
-cd ../consent
-npm install
-bower install --verbose
-cd ../
-npm install
-grunt release
-cd ../
 
 # repack cache
 mkdir -p $CACHE_DIR
