@@ -76,6 +76,7 @@ gem install sass
 
 cd public
 source update-js.sh
+grunt release
 cd ../
 
 # unpack cache
